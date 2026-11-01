@@ -1,0 +1,15 @@
+warning: source '../../../Source/FreeImage.h' is not a readable file or directory... skipping.
+G:/Development/Studio/libs_cpp/FreeImage/Wrapper/FreeImagePlus/FreeImagePlus.h:1066: warning: Member replace(FIBITMAP *new_dib) (function) of class fipImage is not documented.
+G:/Development/Studio/libs_cpp/FreeImage/Wrapper/FreeImagePlus/FreeImagePlus.h:1449: warning: argument 'flag' of command @param is not found in the argument list of fipMultiPage::open(FreeImageIO *io, fi_handle handle, int flags=0)
+G:/Development/Studio/libs_cpp/FreeImage/Wrapper/FreeImagePlus/FreeImagePlus.h:1455: warning: The following parameter of fipMultiPage::open(FreeImageIO *io, fi_handle handle, int flags=0) is not documented:
+  parameter 'flags'
+G:/Development/Studio/libs_cpp/FreeImage/Wrapper/FreeImagePlus/FreeImagePlus.h:1467: warning: argument 'flag' of command @param is not found in the argument list of fipMultiPage::saveToHandle(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_handle handle, int flags=0) const
+G:/Development/Studio/libs_cpp/FreeImage/Wrapper/FreeImagePlus/FreeImagePlus.h:1474: warning: The following parameter of fipMultiPage::saveToHandle(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_handle handle, int flags=0) const is not documented:
+  parameter 'flags'
+G:/Development/Studio/libs_cpp/FreeImage/Wrapper/FreeImagePlus/FreeImagePlus.h:1478: warning: argument 'flag' of command @param is not found in the argument list of fipMultiPage::saveToMemory(FREE_IMAGE_FORMAT fif, fipMemoryIO &memIO, int flags=0) const
+G:/Development/Studio/libs_cpp/FreeImage/Wrapper/FreeImagePlus/FreeImagePlus.h:1484: warning: The following parameter of fipMultiPage::saveToMemory(FREE_IMAGE_FORMAT fif, fipMemoryIO &memIO, int flags=0) const is not documented:
+  parameter 'flags'
+G:/Development/Studio/libs_cpp/FreeImage/Wrapper/FreeImagePlus/FreeImagePlus.h:1588: warning: argument 'name' of command @param is not found in the argument list of fipTag::setKeyValue(const char *key, const char *value)
+G:/Development/Studio/libs_cpp/FreeImage/Wrapper/FreeImagePlus/FreeImagePlus.h:1595: warning: The following parameter of fipTag::setKeyValue(const char *key, const char *value) is not documented:
+  parameter 'key'
+G:/Development/Studio/libs_cpp/FreeImage/Wrapper/FreeImagePlus/FreeImagePlus.h:1066: warning: Member replace(FIBITMAP *new_dib) (function) of class fipImage is not documented.

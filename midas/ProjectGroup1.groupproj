@@ -1,0 +1,36 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{23BB0AD6-C0B9-4184-A25F-7C6F8C3DF9B7}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="lib_midas.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="lib_midas">
+        <MSBuild Projects="lib_midas.cbproj"/>
+    </Target>
+    <Target Name="lib_midas:Clean">
+        <MSBuild Projects="lib_midas.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="lib_midas:Make">
+        <MSBuild Projects="lib_midas.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="lib_midas"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="lib_midas:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="lib_midas:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
