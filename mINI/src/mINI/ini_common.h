@@ -4,7 +4,7 @@
 //---------------------------------------------------------------------------
 #include <string>
 #include <filesystem>
-#include <mini/unicode_utils.h>
+#include <mINI/unicode_utils.h>
 
 namespace fs = std::filesystem;
 

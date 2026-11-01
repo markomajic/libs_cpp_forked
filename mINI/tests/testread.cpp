@@ -4,7 +4,7 @@
 #include <utility>
 #include <fstream>
 #include "lest/lest.hpp"
-#include "mini/ini.h"
+#include "mINI/ini.h"
 
 using T_LineData = mINI::T_LineData;
 using T_INIFileData = std::pair<std::string, std::vector<std::string>>;

@@ -3,7 +3,10 @@
 #define ini_parserH
 //---------------------------------------------------------------------------
 #include <string>
+#include <utility>
+#if defined(__BORLANDC__) && !defined(MINI_NO_AUTOLINK)
 #pragma comment(lib, "mINI")
+#endif
 
 namespace mINI
 {

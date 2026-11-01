@@ -1,10 +1,10 @@
 //---------------------------------------------------------------------------
-#include <windows.h>
 #pragma hdrstop
 #include "unicode_utils.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #include <fstream>
+#include <limits>
 //#include <cuchar>
 
 namespace unicode_utils
@@ -108,16 +108,18 @@ void bom::save_state()
 
 void bom::restore_state()
 {
-	if(istrm && has_return_pos()) {
-		istrm.seekg(0, std::ios::end);
-		remaining_size = istrm.tellg() - return_pos;
-	}
-	else
-		remaining_size = 0;
-	if(stream_state) {
+	remaining_size = 0;
+	// BOM probing may have reached EOF on a short or empty stream.
+	if(stream_state && has_return_pos()) {
 		istrm.clear();
-		if(has_return_pos())
-			istrm.seekg(return_pos, std::ios::beg);
+		istrm.seekg(0, std::ios::end);
+		auto end_pos = istrm.tellg();
+		if(!istrm || end_pos < return_pos) {
+			istrm.setstate(std::ios::failbit);
+			return;
+		}
+		remaining_size = static_cast<std::size_t>(end_pos - return_pos);
+		istrm.seekg(return_pos);
 	}
 }
 
@@ -207,27 +209,38 @@ bool line_data::read_file(const fs::path& filename)
 bool line_data::read_file(std::istream& is)
 {
 	clear();
+	fprops.init();
+	fprops.use_cr = false;
 	std::size_t data_size;
 	fprops.enc = bom::check(is, data_size);
 	bool do_swap;
 	unsigned char_size = get_char_size(fprops.enc, do_swap);
 	if(data_size%char_size)
 		return false; // remaining size should always be a multiple of char_size - if it isn't, something is wrong with the file...
+	if(data_size > static_cast<std::size_t>((std::numeric_limits<std::streamsize>::max)()))
+		return false;
+	const auto byte_size = static_cast<std::streamsize>(data_size);
 	data_size /= char_size;
 
 	if(is) {
 		if(data_size>0) {
 			try {
-				std::unique_ptr<char[]> file_contents(new char[data_size*char_size]);
-				is.read(file_contents.get(), data_size*char_size);
 				switch(char_size)
 				{
 					case 1:
-						read_lines(file_contents.get(), data_size, '\n', '\r');
+					{
+						std::vector<char> contents(data_size);
+						if(!is.read(contents.data(), byte_size))
+							return false;
+						read_lines(contents.data(), data_size, '\n', '\r');
 						break;
+					}
 					case 2:
 					{
-						char16_t *data_ptr = reinterpret_cast<char16_t *>(file_contents.get());
+						std::vector<char16_t> contents(data_size);
+						if(!is.read(reinterpret_cast<char*>(contents.data()), byte_size))
+							return false;
+						auto data_ptr = contents.data();
 						if(do_swap)
 							swap_bytes(data_ptr, data_size);
 						read_lines(data_ptr, data_size, u'\n', u'\r');
@@ -235,7 +248,10 @@ bool line_data::read_file(std::istream& is)
 					}
 					case 4:
 					{
-						char32_t *data_ptr = reinterpret_cast<char32_t *>(file_contents.get());
+						std::vector<char32_t> contents(data_size);
+						if(!is.read(reinterpret_cast<char*>(contents.data()), byte_size))
+							return false;
+						auto data_ptr = contents.data();
 						if(do_swap)
 							swap_bytes(data_ptr, data_size);
 						read_lines(data_ptr, data_size, U'\n', U'\r');
@@ -253,15 +269,16 @@ bool line_data::write_file(const fs::path& filename) const
 {
 	std::ofstream file_strm;
 	file_strm.open(filename, std::ios::out|std::ios::trunc|std::ios::binary);
-	return file_strm ? write_file(file_strm) : false;
+	if(!file_strm || !write_file(file_strm))
+		return false;
+	file_strm.close();
+	return !file_strm.fail();
 }
 
 bool line_data::write_file(std::ostream& os) const
 {
 	bool do_swap;
 	unsigned char_size = get_char_size(fprops.enc, do_swap);
-	if(char_size>1)
-		std::setlocale(LC_ALL, "en_US.utf8");
 	if(bom::write_signature(os, fprops.enc)) {
 		for(const auto& line : *this) {
 			bool success = false;

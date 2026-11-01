@@ -16,14 +16,12 @@ namespace mINI
 
 		INIGenerator(const fs::path p, const file_props& fp, bool pp = false)
 		 : filename(p), fprops(fp), prettyPrint(pp)
-		{
-			std::error_code ec;
-			fs::remove(filename, ec);
-		}
+		{}
 
 		bool operator<<(const INIStructure& data) const
 		{
 			T_LineData lines;
+			lines.set_props(fprops);
 			std::string eq_op = (prettyPrint) ? " = " : "=";
 			bool is_first_section = true;
 			for(const auto& sect_pair : data) {
@@ -41,7 +39,7 @@ namespace mINI
 				}
 				is_first_section = false;
 			}
-			return lines.empty() ? true : lines.write_file(filename);
+			return lines.write_file(filename);
 		}
 	};
 }

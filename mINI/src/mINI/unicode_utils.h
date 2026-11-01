@@ -5,11 +5,14 @@
 #include <iostream>
 #include <vector>
 #include <filesystem>
-#include <boost/locale.hpp>
+#include <boost/locale/encoding_utf.hpp>
+#include <utility>
 //#include <boost/locale/utf8_codecvt.hpp>
 
 //#include <cuchar>
+#if defined(__BORLANDC__) && !defined(MINI_NO_AUTOLINK)
 #pragma comment(lib, "mINI")
+#endif
 
 namespace unicode_utils
 {
@@ -112,8 +115,8 @@ namespace unicode_utils
 				else
 					++line_end;
 			}
-			if(line_begin < line_end) // add trailing bytes only if the last character in the sequence was NOT '\n' (if it was then there are no trailing blanks)
-				add_line(line_begin, line_end, cr_char);
+			if(line_begin < line_end) // The final line has no LF to consume.
+				add_line(line_begin, line_end);
 		}
 
 		bool write_line(std::ostream& os, const std::string& line) const;
@@ -139,7 +142,7 @@ namespace unicode_utils
 		line_data(const std::vector<std::string>& v) : std::vector<std::string>(v)			{}
 		line_data(const line_data& ld) : std::vector<std::string>(ld), fprops(ld.fprops)	{}
 		line_data(const fs::path& filename)																{read_file(filename);}
-		line_data(line_data&& other) noexcept : std::vector<std::string>(other)				{fprops.swap(other.fprops);}
+		line_data(line_data&& other) noexcept : std::vector<std::string>(std::move(other)), fprops(other.fprops) {}
 		virtual ~line_data() {}
 
 		const file_props& get_props() const 	{return fprops;}

@@ -93,12 +93,12 @@
 #include <fstream>
 #include <filesystem>
 
-#include <mini/ini_common.h>
-#include <mini/ini_map.h>
-#include <mini/ini_parser.h>
-#include <mini/ini_reader.h>
-#include <mini/ini_generator.h>
-#include <mini/ini_writer.h>
+#include <mINI/ini_common.h>
+#include <mINI/ini_map.h>
+#include <mINI/ini_parser.h>
+#include <mINI/ini_reader.h>
+#include <mINI/ini_generator.h>
+#include <mINI/ini_writer.h>
 
 namespace mINI
 {

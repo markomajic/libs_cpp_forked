@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "lest/lest.hpp"
-#include "mini/ini.h"
+#include "mINI/ini.h"
 
 const std::string filename = "data_huge.ini";
 

@@ -1,20 +1,36 @@
 #ifndef mini_ini_map_h
 #define mini_ini_map_h
 
+#include <mINI/ini_common.h>
+#include <functional>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 namespace mINI
 {
 	namespace ci {
+		inline unsigned char fold(unsigned char ch) noexcept
+		{
+			return ch >= 'A' && ch <= 'Z' ? ch + ('a' - 'A') : ch;
+		}
+
 		struct comp
 		{
 			bool operator() (const std::string& lhs, const std::string& rhs) const {
-				// On non Windows OS, use the function "strcasecmp" in #include <strings.h>
-				return _stricmp(lhs.c_str(), rhs.c_str()) == 0;
+				if (lhs.size() != rhs.size())
+					return false;
+				for (std::size_t i = 0; i < lhs.size(); ++i)
+					if (fold(lhs[i]) != fold(rhs[i]))
+						return false;
+				return true;
 			}
 		};
 		struct hash
 		{
 			std::size_t operator() (std::string str) const {
-				std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+				for (auto& ch : str)
+					ch = static_cast<char>(fold(ch));
 				return std::hash<std::string>{}(str);
 			}
 		};

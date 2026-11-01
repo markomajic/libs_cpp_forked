@@ -5,7 +5,7 @@
 #include <fstream>
 #include "lest/lest.hpp"
 //#define MINI_CASE_SENSITIVE
-#include "mini/ini.h"
+#include "mINI/ini.h"
 
 using T_LineData = mINI::T_LineData;
 using T_INIFileData = std::pair<std::string, std::vector<std::string>>;

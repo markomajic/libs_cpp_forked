@@ -1,6 +1,6 @@
 #include <iostream>
 #include "lest/lest.hpp"
-#include "mini/ini.h"
+#include "mINI/ini.h"
 
 using INIStructure = mINI::INIStructureCI;
 
