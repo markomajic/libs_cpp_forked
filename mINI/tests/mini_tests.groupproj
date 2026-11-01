@@ -1,0 +1,120 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{44A80425-114E-4AB9-9438-B2FB03E4BF3E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="testcasesens.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="testcopy.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="testgenerate.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="testhuge.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="testread.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="testutf8.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="testwrite.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="testudl.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="testcasesens">
+        <MSBuild Projects="testcasesens.cbproj"/>
+    </Target>
+    <Target Name="testcasesens:Clean">
+        <MSBuild Projects="testcasesens.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="testcasesens:Make">
+        <MSBuild Projects="testcasesens.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="testcopy">
+        <MSBuild Projects="testcopy.cbproj"/>
+    </Target>
+    <Target Name="testcopy:Clean">
+        <MSBuild Projects="testcopy.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="testcopy:Make">
+        <MSBuild Projects="testcopy.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="testgenerate">
+        <MSBuild Projects="testgenerate.cbproj"/>
+    </Target>
+    <Target Name="testgenerate:Clean">
+        <MSBuild Projects="testgenerate.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="testgenerate:Make">
+        <MSBuild Projects="testgenerate.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="testhuge">
+        <MSBuild Projects="testhuge.cbproj"/>
+    </Target>
+    <Target Name="testhuge:Clean">
+        <MSBuild Projects="testhuge.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="testhuge:Make">
+        <MSBuild Projects="testhuge.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="testread">
+        <MSBuild Projects="testread.cbproj"/>
+    </Target>
+    <Target Name="testread:Clean">
+        <MSBuild Projects="testread.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="testread:Make">
+        <MSBuild Projects="testread.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="testutf8">
+        <MSBuild Projects="testutf8.cbproj"/>
+    </Target>
+    <Target Name="testutf8:Clean">
+        <MSBuild Projects="testutf8.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="testutf8:Make">
+        <MSBuild Projects="testutf8.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="testwrite">
+        <MSBuild Projects="testwrite.cbproj"/>
+    </Target>
+    <Target Name="testwrite:Clean">
+        <MSBuild Projects="testwrite.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="testwrite:Make">
+        <MSBuild Projects="testwrite.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="testudl">
+        <MSBuild Projects="testudl.cbproj"/>
+    </Target>
+    <Target Name="testudl:Clean">
+        <MSBuild Projects="testudl.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="testudl:Make">
+        <MSBuild Projects="testudl.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="testcasesens;testcopy;testgenerate;testhuge;testread;testutf8;testwrite;testudl"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="testcasesens:Clean;testcopy:Clean;testgenerate:Clean;testhuge:Clean;testread:Clean;testutf8:Clean;testwrite:Clean;testudl:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="testcasesens:Make;testcopy:Make;testgenerate:Make;testhuge:Make;testread:Make;testutf8:Make;testwrite:Make;testudl:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
