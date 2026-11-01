@@ -1,0 +1,21 @@
+set(src_dir "${CMAKE_CURRENT_SOURCE_DIR}/zlib_src")
+
+add_compression_libraries(libboost_zlib "${src_dir}"
+    "${boost_src_dir}/gzip.cpp"
+    "${boost_src_dir}/zlib.cpp"
+    "${src_dir}/adler32.c"
+    "${src_dir}/compress.c"
+    "${src_dir}/crc32.c"
+    "${src_dir}/deflate.c"
+    "${src_dir}/gzclose.c"
+    "${src_dir}/gzlib.c"
+    "${src_dir}/gzread.c"
+    "${src_dir}/gzwrite.c"
+    "${src_dir}/infback.c"
+    "${src_dir}/inffast.c"
+    "${src_dir}/inflate.c"
+    "${src_dir}/inftrees.c"
+    "${src_dir}/trees.c"
+    "${src_dir}/uncompr.c"
+    "${src_dir}/zutil.c"
+)

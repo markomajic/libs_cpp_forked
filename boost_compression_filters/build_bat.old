@@ -1,0 +1,68 @@
+@echo off
+rem make.bat is just a hard-link to build.bat - the only difference
+rem between them is that build.bat deletes CMakeCache.txt and runs
+rem ninja clean (those actions are bypassed if %0% is make).
+set "home_dir=%cd%"
+set "build_dir=build"
+set "compiler="
+set "build_type="
+
+if "%0%"=="build" (
+	set "build_mode=Y"
+	echo Build started...
+) else (
+	echo Make started...
+)
+
+if "%1%"=="/64" (
+	set "compiler=bcc64.exe"
+	set "build_dir=%build_dir%\Win64"
+)
+if "%1%"=="/32" (
+	set "compiler=bcc32c.exe"
+	set "build_dir=%build_dir%\Win32"
+)
+	
+if defined compiler (
+	echo compiler=%compiler%
+) else (
+	echo Usage: %0% param1 [param2]
+	echo         param1: /32 or /64 to define a target platform/compiler [mandatory]
+	echo         param2: /R for Release or /D for Debug configuration [optional - Release assumed if missing]
+	goto end
+)
+
+if "%2%"=="/D" (set build_type=Debug) else (set build_type=Release)
+echo build_type=%build_type%
+set "build_dir=%build_dir%\%build_type%"
+
+if not exist %build_dir% (
+	echo Creating build directory "%build_dir%"
+	mkdir %build_dir%
+)
+
+echo Running CMAKE...
+
+if defined build_mode (
+echo Cleaning up...
+del %build_dir%\CMakeCache.txt
+rmdir  /s /q %build_dir%\CMakeFiles
+ninja clean
+)
+
+cd %build_dir%
+rem cmake -DCMAKE_C_COMPILER=%compiler% -DCMAKE_CXX_COMPILER=%compiler% -DCMAKE_BUILD_TYPE=%build_type% -G Ninja --debug-output -Wno-dev -v "%home_dir%"
+cmake -DCMAKE_C_COMPILER=%compiler% -DCMAKE_CXX_COMPILER=%compiler% -DCMAKE_BUILD_TYPE=%build_type% -G Ninja -v "%home_dir%"
+if %errorlevel% == 0 (
+echo Running ninja...
+	ninja
+rem	ninja install
+)
+cd %home_dir%
+
+:end
+set "home_dir="
+set "build_dir="
+set "compiler="
+set "build_type="
+set "build_mode="
